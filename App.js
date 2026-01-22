@@ -1,3 +1,5 @@
+import { ref, set } from "firebase/database";
+import { database } from "./firebaseConfig";
 import React, { useState, useEffect } from 'react';
 import { 
   StyleSheet, Text, View, TouchableOpacity, SafeAreaView, 
@@ -97,19 +99,20 @@ export default function App() {
 
   const handleTranslate = () => {
     if (inputText.trim().length > 0) {
-      setDisplayWord(inputText.toUpperCase());
+      const word = inputText.toUpperCase();
+      setDisplayWord(word);
+      
+      // --- SEND TO HARDWARE ---
+      // This writes the word to Firebase, which your Arduino is "listening" to
+      set(ref(database, 'braille/currentText'), {
+        text: word,
+        timestamp: Date.now()
+      });
+      // ------------------------
+
       setStartIndex(0);
       setIsPlaying(true); 
       Keyboard.dismiss();
-    }
-  };
-
-  const handleConnect = () => {
-    if (!isConnected) {
-      Alert.alert("TransLearn", "Connecting to 3-Cell Module...");
-      setTimeout(() => setIsConnected(true), 1500); 
-    } else {
-      setIsConnected(false);
     }
   };
 

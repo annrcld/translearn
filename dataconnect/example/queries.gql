@@ -1,0 +1,40 @@
+mutation CreateNewProject($code: String!, $name: String!, $description: String, $circuitDiagramText: String) @auth(level: USER) {
+  project_insert(data: {
+    code: $code,
+    name: $name,
+    description: $description,
+    circuitDiagramText: $circuitDiagramText,
+    userId_expr: "auth.uid",
+    createdAt_expr: "request.time",
+    updatedAt_expr: "request.time"
+  })
+}
+
+query GetMyProjects @auth(level: USER) {
+  projects(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    name
+    description
+    code
+    circuitDiagramText
+    createdAt
+    updatedAt
+  }
+}
+
+mutation UpdateProject($id: UUID!, $code: String, $name: String, $description: String, $circuitDiagramText: String) @auth(level: USER) {
+  project_update(
+    key: {id: $id}
+    data: {
+      code: $code
+      name: $name
+      description: $description
+      circuitDiagramText: $circuitDiagramText
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation DeleteProject($id: UUID!) @auth(level: USER) {
+  project_delete(key: {id: $id})
+}
