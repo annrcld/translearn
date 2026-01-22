@@ -10,7 +10,7 @@ const firebaseConfig = {
   appId: "1:59793320582:web:a58297ccd80e49de71bf07",
   measurementId: "G-5HLYJQ5M3L",
   // Ensure this URL matches what you see in your Firebase Console
-  databaseURL: "https://translearnapp-b1a71-default-rtdb.firebaseio.com/" 
+  databaseURL: "https://translearnapp-b1a71-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 // Initialize Firebase

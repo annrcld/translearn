@@ -1,10 +1,7 @@
 import { ref, set } from "firebase/database";
 import { database } from "./firebaseConfig";
 import React, { useState, useEffect } from 'react';
-import { 
-  StyleSheet, Text, View, TouchableOpacity, SafeAreaView, 
-  TextInput, Keyboard, TouchableWithoutFeedback, ScrollView, Alert 
-} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, Feather, FontAwesome5 } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
 
@@ -70,7 +67,17 @@ export default function App() {
   const [startIndex, setStartIndex] = useState(0); // Where the 3-letter chunk starts
   const [isPlaying, setIsPlaying] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  
+
+const handleConnect = () => {
+    if (!isConnected) {
+      Alert.alert("TransLearn", "Connecting to 3-Cell Module...");
+      // Simulates a connection delay
+      setTimeout(() => setIsConnected(true), 1500); 
+    } else {
+      setIsConnected(false);
+    }
+  };
+
   // --- The 3-Letter Logic ---
   // We grab 3 characters starting from the current index
   const currentChunk = [
